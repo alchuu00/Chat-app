@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Messenger app</title>
+</head>
+
+<body>
+<h1>Messenger app</h1>
+<h6>By Alchuu00</h6>
+<form action="/add-message" method="post">
+    <input required name="username" placeholder="Enter your name">
+    <br>
+    <br>
+
+    <textarea required placeholder="Enter your message" name="text" rows="5"></textarea>
+    <br>
+
+    <button type="submit">Submit</button>
+</form>
+<hr>
+<h2>Messages:</h2>
+{% for message in messages %}
+    <p><strong>{{message.author}}</strong> {{message.text}}</p>
+{% endfor %}
+</body>
+</html>
