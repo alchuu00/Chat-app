@@ -2,34 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="/static/css/style.css" rel="stylesheet">
     <title>Messenger app</title>
 </head>
 
 <body>
 <h1>Messenger app</h1>
-<h6>By Alchuu00</h6>
+
+{% if user %} <!--if user exists-->
+<div id="header">
+    <div>Logged in as: <strong>{{user.name}}</strong></div>
+    <div>
+        <form action="/logout" method="get">
+            <label>{{user.email}}</label>
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</div>
+<hr>
 <form action="/add-message" method="post">
-    <input required name="username" placeholder="Enter your name">
+    <textarea name="text" placeholder="Enter your message" required rows="5"></textarea>
     <br>
     <br>
-
-    <textarea required placeholder="Enter your message" name="text" rows="5"></textarea>
-    <br>
-
     <button type="submit">Submit</button>
 </form>
 <hr>
-<h2>Messages:</h2>
 
+<h2>Messages:</h2> <!--print messages by pages-->
 {% for message in messages.items %}
-    <p><strong>{{message.author}}</strong> {{message.text}}</p>
+<div class="message"><strong>{{message.author}}</strong> {{message.text}}</div>
 {% endfor %}
 
 <p>
     {% for page_num in range(messages.pages) %}
-        <a href="/?page={{page_num+1}}">Page {{page_num+1}}</a> |
+    <a href="/?page={{page_num+1}}">Page {{page_num+1}}</a> |
     {% endfor %}
 </p>
+{% else %} <!--if user doesn't exists-->
+<form action="/login" method="post">
+    <input name="user-name" placeholder="Enter your name" type="text"><br>
+    <input name="user-email" placeholder="Enter your email address" type="email"><br>
+    <button>Login</button>
+</form>
+{% endif %}
+
 </body>
 </html>
