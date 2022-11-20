@@ -1,13 +1,13 @@
 import os
-
 from flask import Flask, render_template, request, redirect, url_for, make_response
 from sqla_wrapper import SQLAlchemy
 from sqlalchemy_pagination import paginate
 
 app = Flask(__name__)
-db = SQLAlchemy(os.getenv("DATABASE_URL", "sqlite:///db.sqlite"))
+
+db_url = os.getenv("DATABASE_URL", "sqlite:///db.sqlite").replace("postgres://", "postgresql://", 1)
+db = SQLAlchemy(db_url)
 # this connects to a database either on Heroku or on localhost
-db.create_all()
 
 
 class User(db.Model):
@@ -20,6 +20,9 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.String, primary_key=False)
     text = db.Column(db.String, primary_key=False)
+
+
+db.create_all()
 
 
 @app.route("/", methods=["GET"])
