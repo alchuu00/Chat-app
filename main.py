@@ -12,8 +12,8 @@ db = SQLAlchemy(db_url)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, unique=True, primary_key=True)
-    email = db.Column(db.String, unique=True, primary_key=True)
+    name = db.Column(db.String, unique=True)
+    email = db.Column(db.String, unique=True)
 
 
 class Message(db.Model):
