@@ -3,3 +3,4 @@ gunicorn==20.1.0
 sqla-wrapper==4.200628
 psycopg2
 sqlalchemy-pagination
+pytest
