@@ -31,8 +31,7 @@ def test_index_not_logged_in(client):
 def test_index_logged_in(client):
     # post request test
     client.post('/login',
-                data={"user-name": "Test User", "user-email": "test@user.com",
-                      "user-password": "password123"},
+                data={"user-name": "Test User", "user-email": "test@user.com"},
                 follow_redirects=True)
 
     response = client.get('/')
@@ -42,12 +41,14 @@ def test_index_logged_in(client):
 def test_index_add_message(client):
     test_user = "Test User"
     client.post("/login",
-                data={"name": test_user, "email": "testuser@test.com", "password": "password123"},
+                data={"user-name": test_user, "user-email": "testuser@test.com"},
                 follow_redirects=True)
 
-    res = client.get('/',
-                     data={"text": "This is a test message"},
-                     follow_redirects=True)
+    response = client.post('/',
+                           data={"text": "This is a test message"},
+                           follow_redirects=True)
+
+    assert b"This is a test message" in response.data
 
     test_message = b"This is a test message"
     response = client.get("/add-message",
