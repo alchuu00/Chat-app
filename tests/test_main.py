@@ -44,33 +44,9 @@ def test_index_add_message(client):
                 data={"user-name": test_user, "user-email": "testuser@test.com"},
                 follow_redirects=True)
 
-    response = client.post('/',
-                           data={"text": "This is a test message"},
+    test_message = b"This is a test message"
+    response = client.post('/add-message',
+                           data={"text": test_message},
                            follow_redirects=True)
-
-    assert b"This is a test message" in response.data
-
-    test_message = b"This is a test message"
-    response = client.get("/add-message",
-                          data={"text": "This is a test message"},
-                          follow_redirects=True)
-
-    assert test_message in response.data
-
-
-def test_delete_user(client):
-    test_user = "Test User"
-    client.post("/login",
-                data={"name": test_user, "email": "testuser@test.com", "password": "password123"},
-                follow_redirects=True)
-
-    client.post("/profile/delete",
-                data={"name": test_user, "email": "testuser@test.com", "password": "password123"},
-                follow_redirects=True)
-
-    test_message = b"This is a test message"
-    response = client.get("/add-message",
-                          data={"message": "This is a test message"},
-                          follow_redirects=True)
 
     assert test_message in response.data
